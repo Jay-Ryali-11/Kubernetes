@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-2
+  labels:
+    app: deployment-2
+  namespace: namespace-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment-2
+  template:
+    metadata:
+      labels:
+        app: deployment-2
+    spec:
+      containers:
+        - name: container-2
+          image: nginx
+          ports:
+            - containerPort: 80
+          env:
+            - name: usernamefordeploy-2
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-2
+                  key: key
+            - name: passwordfordeploy-2
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap-2
+                  key: password
+          volumeMounts:
+            - name: config-volume-2
+              mountPath: /etc/config
+      volumes:
+        - name: config-volume-2
+          configMap:
+            name: configmap-2
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-2
+  namespace: namespace-2
+spec:
+  selector:
+    app: deployment-2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort

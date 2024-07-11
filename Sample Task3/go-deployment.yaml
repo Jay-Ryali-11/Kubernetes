@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-go
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-go
+  template:
+    metadata:
+      labels:
+        app: redis-go
+    spec:
+      containers:
+        - name: go-cont
+          image: redis-goo
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-service
+spec:
+  selector:
+    app: redis-go
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

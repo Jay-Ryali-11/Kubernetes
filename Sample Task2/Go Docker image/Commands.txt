@@ -1,0 +1,14 @@
+build command - CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs=false -o main
+
+
+->create image using docker file.
+
+->connect the kubectl with the docker using the below command (if we can’t see the created image)
+
+	- eval $(minikube -p minikube docker-env)
+
+->now again check for the image in kubectl.
+
+	- Docker images
+
+->now when creating the deployments give the name in the local file.

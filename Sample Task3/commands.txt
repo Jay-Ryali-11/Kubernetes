@@ -1,0 +1,19 @@
+//For "Go" image
+
+-> go mod init github.com/example
+-> go get gofr.dev
+-> copy main.go file from gofr.dev
+-> go mod tidy
+-> go run main.go
+-> CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -buildvcs=false -o main
+   build and run docker file for image.
+
+-> eval $(minikube -p minikube docker-env)
+
+  write main deployment,services,configmap files.
+
+-> kubectl port-forward pod/<pod_id> 6000 8000
+-> sudo lsof -i :<portnumber>
+   check for the pods running on portnumber.
+-> sudo kill -9 <pid>
+   kills if any, are running.

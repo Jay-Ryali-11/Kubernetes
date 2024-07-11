@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment
+  labels:
+    app: deployment
+  namespace: gospace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployment
+  template:
+    metadata:
+      labels:
+        app: deployment
+    spec:
+      containers:
+        - name: container
+          image: go-img
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          env:
+            - name: username
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: key
+            - name: password
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: password
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service
+  namespace: gospace
+spec:
+  selector:
+    app: deployment
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000

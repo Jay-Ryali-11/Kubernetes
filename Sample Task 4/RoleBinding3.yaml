@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: role-binding-3
+  namespace: space3
+subjects:
+  - kind: ServiceAccount
+    name: service
+    namespace: space1
+    apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: cluster-role
+  apiGroup: ""
